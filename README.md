@@ -54,6 +54,39 @@ docker service scale web=4
 ```
 docker stop 123
 ```
+
+## 4. Adding Nodes
+### 2 Destroying the Single Node Swarm
+```
+docker swarm leave --force
+```
+
+### 7  docker swarm init --advertise-addr
+```
+ docker swarm init --advertise-addr ip
+ 
+ ```
+### 8 Joining Worker Nodes to the Swarm Mode
+
+```
+docker swarm join-token worker
+docker swarm join-token manager
+```
+### 9 Creating a Service to Visualize Our Cluster State
+```
+docker service create --name viz --publish 8090:8080 --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock --constraint=node.role==manager manomarks/visualizer
+```
+
+```
+docker service ls
+docker service ps viz
+```
+## 10 What Happens When a Node Is Shut Down
+```
+docker node rm -f c
+```
+
+
 ## 11. Protecting Secrets
 ###
 
