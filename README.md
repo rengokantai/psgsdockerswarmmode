@@ -24,6 +24,11 @@ docker swarm -h
 docker node ls
 docker node inspect self
 ```
+
+### 5 Creating an Nginx Service
+```
+docker service create --name web --publish 8080:80 nginx
+```
 ## 11. Protecting Secrets
 ###
 
