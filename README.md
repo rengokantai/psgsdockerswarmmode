@@ -43,7 +43,16 @@ docker service rm web
 ### 9 Updating a Service to Scale the Number of Containers
 make 2 containers(not make 2 more containers)
 ```
+docker service ps web
 docker service update --replicas=2 web
+```
+scale
+```
+docker service scale web=4
+```
+### 10 Swarm Managers Ensure the Desired State Is Maintained
+```
+docker stop 123
 ```
 ## 11. Protecting Secrets
 ###
