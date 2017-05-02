@@ -19,6 +19,11 @@ echo "http://127.0.0.1:3000/customer/1\http://127.0.0.1:3001/customer/2" | paral
 ```
 docker swarm -h
 ```
+### 4 Listing and Inspecting Nodes
+```
+docker node ls
+docker node inspect self
+```
 ## 11. Protecting Secrets
 ###
 
