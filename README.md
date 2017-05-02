@@ -29,6 +29,22 @@ docker node inspect self
 ```
 docker service create --name web --publish 8080:80 nginx
 ```
+
+### 7 Services Lead to Tasks
+```
+docker service ls
+docker service ps web
+```
+
+### 8 Removing a Service
+```
+docker service rm web
+```
+### 9 Updating a Service to Scale the Number of Containers
+make 2 containers(not make 2 more containers)
+```
+docker service update --replicas=2 web
+```
 ## 11. Protecting Secrets
 ###
 
