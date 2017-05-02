@@ -14,7 +14,11 @@ parallel test
 ```
 echo "http://127.0.0.1:3000/customer/1\http://127.0.0.1:3001/customer/2" | parallel -j 2 "ab -n 100 {.}"
 ```
-
+## 3.Creating a Swarm and Running a a Service
+### 3 Enabling Swarm Mode by Initializing a new Swarm
+```
+docker swarm -h
+```
 ## 11. Protecting Secrets
 ###
 
