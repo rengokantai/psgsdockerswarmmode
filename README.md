@@ -85,6 +85,11 @@ docker service ps viz
 ```
 docker node rm -f c
 ```
+## 16 Promoting a Worker to a Manager
+```
+docker node promote worker1
+docker node demote manager1
+```
 
 
 ## 11. Protecting Secrets
