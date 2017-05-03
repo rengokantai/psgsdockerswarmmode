@@ -110,6 +110,34 @@ docker service create --mode=global --name cadvisor --mount type=bind,source=/,t
   --mount type=bind,source=/var/lib/docker/,target=/var/lib/docker,readonly=true \
   google/cadvisor
 ```
+
+## 5. Ingress Routing and Publishing Ports
+### 3 The Ingress Overlay Network
+```
+docker network ls
+docker network inspect ingress //we can get published port
+```
+### 7 Removing a Published Port on an Existing Service
+```
+docker service update --publish-rm 8080 cadvisor
+```
+### 8 Adding a Host Mode Published Port
+```
+docker service update --publish-add mode=host,published=8080,target=8080 cadvisor
+```
+
+### 9 Publishing a Random Port
+```
+docker service create --name random -p target=80 nginx
+```
+using inspect to get port number
+```
+docker service inspect random --pretty
+```
+
+## 6. Reconciling a Desired State
+
+
 ## 11. Protecting Secrets
 ###
 
