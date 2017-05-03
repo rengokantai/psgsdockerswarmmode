@@ -91,7 +91,25 @@ docker node promote worker1
 docker node demote manager1
 ```
 
-
+## 17 Draining a Node to Perform Maintenance
+```
+docker node update --availablity=drain worker2
+```
+this will move all container from worker2 to other workers
+restore
+```
+docker node update --availablity=active worker2
+```
+trick: scaleup then scale down
+## 18 One Container per Node with Global Services
+[see here](https://blog.codeship.com/monitoring-docker-containers-with-elasticsearch-and-cadvisor/)
+```
+docker service create --mode=global --name cadvisor --mount type=bind,source=/,target=/rootfs,readonly=true \
+  --mount type=bind,source=/var/run,target=/var/run,readonly=false \
+  --mount type=bind,source=/sys,target=/sys,readonly=true \
+  --mount type=bind,source=/var/lib/docker/,target=/var/lib/docker,readonly=true \
+  google/cadvisor
+```
 ## 11. Protecting Secrets
 ###
 
