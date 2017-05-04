@@ -138,6 +138,24 @@ docker service inspect random --pretty
 ## 6. Reconciling a Desired State
 
 
+## 7. Rolling Updates
+### 5 Specifying an Image Tag When Creating a Service
+```
+docker service create --name pay -p 3000:3000 swarmgs/payroll:1
+```
+```
+docker service scale pay=5
+```
+### 6 Adding Delay Between Task Updates
+```
+docker service update --image swarmgs/payroll:3 --update-delay=1s pay
+```
+### 7 Updating Multiple Tasks Concurrently with --update-parallelism
+```
+docker service update --image swarmgs/payroll:3 --update-delay=1s --update-parallelism=2 pay
+```
+### 8 Cleaning up Task History When Learning
+
 ## 11. Protecting Secrets
 ###
 
