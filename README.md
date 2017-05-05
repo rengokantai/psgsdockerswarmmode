@@ -166,10 +166,18 @@ docker service update --rollback pay
 docker service update --force pay
 ```
 ## 18 Watching UpdateStatus During a Service Update
-···
+```
 watch -d -n 0.5 "docker service inspect pay | jq .[].UpdateStatus"
 ```
-
+## 8. Container to Container Networking 
+### 4 Creating an Overlay Network
+```
+docker network create -d overlay --subnet=10.0.9.0/24 backend
+```
+### 6 Attaching a New Service to Our Overlay Network
+```
+docker service create --name balance -p 5000:3000 --network backend swarmgs/balance
+```
 ## 11. Protecting Secrets
 ###
 
