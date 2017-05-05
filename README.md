@@ -156,6 +156,10 @@ docker service update --image swarmgs/payroll:3 --update-delay=1s --update-paral
 ```
 ### 8 Cleaning up Task History When Learning
 
+### 16 Rolling Back to the Previous Service Definition
+```
+docker service update --rollback pay
+```
 ## 11. Protecting Secrets
 ###
 
