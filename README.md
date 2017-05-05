@@ -160,6 +160,16 @@ docker service update --image swarmgs/payroll:3 --update-delay=1s --update-paral
 ```
 docker service update --rollback pay
 ```
+
+## 17 Use --force to Test Changes to Update Policies
+```
+docker service update --force pay
+```
+## 18 Watching UpdateStatus During a Service Update
+···
+watch -d -n 0.5 "docker service inspect pay | jq .[].UpdateStatus"
+```
+
 ## 11. Protecting Secrets
 ###
 
