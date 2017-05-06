@@ -296,8 +296,54 @@ watch
 watch -n 0.5 docker stack ps cow
 ```
 
+
+
+### 4 Automatic Service Recovery with Health Checks
+```
+version: '3.1'
+services:
+  cowsay:
+    image: swarmgs/cowsayhealth
+    ports:
+      - "7001:80"
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+```
+docker stack deploy -c cowsayhealth.yml cowh
+```
+
+
+### 5 Manually Forcing a Corrupted Service to Restart
+```
+version: '3.1'
+services:
+  calc:
+    image: swarmgs/calc
+    ports:
+      - "7000:80"
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+```
+docker stack deploy -c calc.yml calc
+docker service update --force calc_calc
+```
+
+
+### 7 Adding a Health Check to a Stack Compose File
+healthcheck command.
+- 0 success
+- 1 unhealthy
+- 2 reserved  
+
+
 ## 11. Protecting Secrets
-###
+### 1 Environment Variables Can Leak Passwords
 
 ```
 vi mysql.yml
