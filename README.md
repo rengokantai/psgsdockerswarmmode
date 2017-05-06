@@ -364,6 +364,7 @@ services:
           - node.role==manager
 
 ```
+```
 docker stack deploy -c mysql.yml mysql
 docker ps
 docker exec -it 12345678 bash
@@ -374,4 +375,60 @@ mysql -uroot -p
 show databases;
 ```
 
+### 2 Creating a Secret for a MySQL Password
+```
+echo pass |docker secret create mysql_root_pass -
+```
+ls
+```
+docker secret ls
+```
+### 3 Granting a Service Access to a Secret
+```
+version: '3.1'
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_USER: wordpress
+      MYSQL_DATABASE: wordpress
+      #MYSQL_ROOT_PASSWORD: root
+    secrets:
+      - root_pass   
+      # not mysql_root_pass
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
 
+```
+### 4 Troubleshooting a Failing Service
+```
+docker stack ps mysql
+docker service
+docker service logs mysql_mysql
+```
+we must specify MYSQL_ROOT_PASSWORD MYSQL_ALLOW_EMPTY_PASSWORD MYSQL_RANDOM_ROOT_PASSWORD.
+```
+version: '3.1'
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_USER: wordpress
+      MYSQL_DATABASE: wordpress
+      #add
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      #MYSQL_ROOT_PASSWORD: root
+    secrets:
+      - root_pass   
+      # not mysql_root_pass
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+
+### 5 Accessing Secrets in a Container via the Filesystem
+```
+docker stack ps mysql
