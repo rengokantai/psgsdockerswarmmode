@@ -189,7 +189,7 @@ convert to compose
 version: '3.1'
 services:
   viz:
-    image: monomarks/visualizer
+    image: manomarks/visualizer
     volumes:
       - "/var/run/docker.sock:/var/ru/docker.sock"
     deploy:
@@ -208,8 +208,26 @@ stackname: viz
 docker stack ps viz
 ```
 
-
-
+### 6 Updating a Service with a Stack Is as Easy as Creating It
+```
+version: '3.1'
+services:
+  viz:
+    image: manomarks/visualizer
+    volumes:
+      - "/var/run/docker.sock:/var/ru/docker.sock"
+    ports:
+      - "8090:8080"
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+### 7 Removing a Stack
+remove
+```
+docker stack rm viz
+```
 
 
 ## 11. Protecting Secrets
