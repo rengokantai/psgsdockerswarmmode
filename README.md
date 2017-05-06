@@ -189,7 +189,7 @@ convert to compose
 version: '3.1'
 services:
   viz:
-    iamge: monomarks/visualizer
+    image: monomarks/visualizer
     volumes:
       - "/var/run/docker.sock:/var/ru/docker.sock"
     deploy:
@@ -198,7 +198,15 @@ services:
           - node.role==manager
     
 ```
-
+### 5 Deploying a Stack with a Compose File
+```
+docker stack deploy -c viz.yml viz
+docker service ps viz_viz
+```
+stackname: viz
+```
+docker stack ps viz
+```
 
 
 
