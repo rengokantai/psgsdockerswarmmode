@@ -178,6 +178,32 @@ docker network create -d overlay --subnet=10.0.9.0/24 backend
 ```
 docker service create --name balance -p 5000:3000 --network backend swarmgs/balance
 ```
+
+## 9. Deploying with Stacks
+### 1 Enough with All the Flags Already
+```
+docker service create --name viz --publish 8090:8080 --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock --constraint=node.role==manager manomarks/visualizer
+```
+convert to compose
+```
+version: '3.1'
+services:
+  viz:
+    iamge: monomarks/visualizer
+    volumes:
+      - "/var/run/docker.sock:/var/ru/docker.sock"
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+    
+```
+
+
+
+
+
+
 ## 11. Protecting Secrets
 ###
 
