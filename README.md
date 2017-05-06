@@ -284,6 +284,18 @@ services:
 ```
 docker stack deploy -c cowsay.yml cow
 ```
+
+
+### 3 What Happens if We Break a Container?
+```
+docker exec -it $(docker ps -f name=cow -q) bash
+mv /usr/games/fortune /usr/games/fortune2
+```
+watch
+```
+watch -n 0.5 docker stack ps cow
+```
+
 ## 11. Protecting Secrets
 ###
 
