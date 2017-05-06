@@ -229,7 +229,61 @@ remove
 docker stack rm viz
 ```
 
+### 8 Creating and Deploying a Multi Service Stack
+```
+version: '3.1'
+services:
+  customer:
+    image: swarmgs/customer
+  balance:
+    image: swarmgs/balance
+    ports:
+      - "5000:3000"
+    environment:
+      MYWEB_CUSTOMER_API: "customer:3000"
+```
+```
+docker stack deploy -c apis.yml apis
+docker stack services apis
+docker stack ps apis
+docker services ps apis_customer
+```
 
+### 9 Specifying Replicas in Compose File
+```
+version: '3.1'
+services:
+  customer:
+    image: swarmgs/customer
+    deploy:
+      replicas: 5
+  balance:
+    image: swarmgs/balance
+    ports:
+      - "5000:3000"
+    environment:
+      MYWEB_CUSTOMER_API: "customer:3000"
+    deploy:
+      replicas: 2
+```
+
+## 10. Health Checking
+### 2 Deploying a Cowsay Stack
+```
+version: '3.1'
+services:
+  cowsay:
+    image: swarmgs/cowsay
+    ports:
+      - "7000:80"
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+```
+docker stack deploy -c cowsay.yml cow
+```
 ## 11. Protecting Secrets
 ###
 
