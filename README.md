@@ -341,6 +341,32 @@ healthcheck command.
 - 1 unhealthy
 - 2 reserved  
 
+### 8 Configuring Interval and Timeout and Retries
+```
+--interval
+--timeout
+--retries
+```
+```
+version: '3.1'
+services:
+  calc:
+    image: swarmgs/calc
+    ports:
+      - "7000:80"
+    healthcheck:
+      test: curl -f -s -S htt[://localhost/calc/iseverythingok|| exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+### 9 Deploying Health Checks and Inspecting Container Health
+
+
 
 ## 11. Protecting Secrets
 ### 1 Environment Variables Can Leak Passwords
@@ -432,3 +458,73 @@ services:
 ### 5 Accessing Secrets in a Container via the Filesystem
 ```
 docker stack ps mysql
+docker exec -it $(docker ps | head -2 | tail -1 | cut -d ' ' -f 1) bash
+```
+### 6 Using a Secret to Provide a MySQL Root Password
+```
+cd run/secrets
+cat root_pass
+```
+```
+version: '3.1'
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_USER: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD_FILE: "/run/secrets/root_pass"
+      #MYSQL_ROOT_PASSWORD: root
+    secrets:
+      - root_pass   
+      # not mysql_root_pass
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
+### 7  Steps to Use Secrets
+If use command line
+```
+docker service create -secret X
+```
+another way is to use cdocker-compose
+
+
+### 8 _FILE Image Secrets Convention
+
+### 9 Removing Secrets
+```
+docker secret rm mysql_root_pass
+```
+If the secret is in use,remove stack first
+```
+docker stack rm mysql
+```
+
+### 10 A Convention for Updating a Secret
+create password:
+```
+echo pass1 |docker secret create mysql_root_pass_v1 -
+echo pass2 |docker secret create mysql_root_pass_v2 -
+```
+```
+version: '3.1'
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_USER: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD_FILE: "/run/secrets/root_pass"
+      #MYSQL_ROOT_PASSWORD: root
+    secrets:
+      # add source
+      - source: root_pass_v1
+        target: root_pass
+      # not mysql_root_pass
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+```
